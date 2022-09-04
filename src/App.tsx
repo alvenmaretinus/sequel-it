@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import QueryField from './components/QueryField';
+import ResultTable from './components/ResultTable';
+import { simulateFetchTableData } from './utils/network';
+import { ResultTableData } from "./types/TableData";
 import './App.css';
 
 function App() {
+  const [queryFieldValue, setQueryFieldValue] = useState('');
+  const [query, setQuery] = useState('');
+  const [data, setData] = useState<ResultTableData>([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!!query) {
+      setLoading(true);
+      (async () => {
+        const data = await simulateFetchTableData(query);
+        setData(data)
+        setLoading(false);
+      })()
+    }
+  }, [query])
+
+  const onExecuteQuery = () => {
+    if (query === queryFieldValue) return;
+
+    setData([])
+    setQuery(queryFieldValue)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Sequel it!</h1>
+      <QueryField
+        query={queryFieldValue}
+        onQueryChange={setQueryFieldValue}
+        onExecuteQuery={onExecuteQuery}
+      />
+      <ResultTable data={data} loading={loading} />
     </div>
   );
 }

@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Project Overview
+Simple UI that accepts SQL query and returns mock data displayed on table.
+This project is bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Room for improvements:
+1. Setup eslint, prettier, and precommit hook
+2. Implement the table using virtualization, to load large amount of data without performance degradation.
+3. Load tailwind.css for better styling experience.
 
 ## Available Scripts
 
